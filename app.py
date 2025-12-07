@@ -23,7 +23,7 @@ def index():
 
 @app.route('/get_advice', methods=['POST'])
 def get_advice():
-    # Get user input and selected language
+   # Get user input and selected language
     user_input = request.form['symptom']
     selected_language = request.form.get('language', 'en')
 
@@ -32,22 +32,24 @@ def get_advice():
         translation = translator.translate(user_input, src=selected_language, dest='en')
         user_input = translation.text.lower()
 
-    # Clean input (remove unnecessary words like 'have', 'feeling', 'pain', and retain core symptoms)
+    # Clean input (remove stopwords)
     cleaned_input = clean_input(user_input)
-    symptoms = [word.strip() for word in cleaned_input.split() if word.strip()]
 
-    # Debugging: print symptoms to ensure they are correctly passed
+    # Split input by commas (user can input multiple symptoms separated by comma)
+    symptoms = [s.strip() for s in cleaned_input.split(',') if s.strip()]
+    
+    # Debugging
     print("Symptoms received:", symptoms)
 
     if not symptoms:
         return render_template('result.html', symptom=user_input, advice_list=["No valid symptoms detected."], emergency=False)
 
-    # Prepare the list for Prolog query
+    # Prepare Prolog list
     inputs_list_str = '[' + ', '.join([f"'{symptom}'" for symptom in symptoms]) + ']'
-    print("Prolog query:", f"process_user_inputs({inputs_list_str}, AdviceList)")  # Print query to debug
+    print("Prolog query:", f"process_user_inputs({inputs_list_str}, AdviceList)")
 
     query = list(prolog.query(f"process_user_inputs({inputs_list_str}, AdviceList)"))
-    print("Prolog query result:", query)  # Print the result from Prolog
+    print("Prolog query result:", query)
 
     if query:
         advice_list = query[0]['AdviceList']
@@ -67,13 +69,12 @@ def get_advice():
             translated_advice_list.append(new_advice)
         advice_list = translated_advice_list
 
-
-    # Symptom Tracker (store in session)
+    # Symptom Tracker
     if 'symptom_history' not in session:
         session['symptom_history'] = []
     session['symptom_history'].append(user_input)
 
-    # Emergency Assistance check
+    # Emergency check
     emergency = any(symptom in severe_symptoms for symptom in symptoms)
 
     return render_template('result.html', symptom=user_input, advice_list=advice_list, emergency=emergency)
@@ -102,13 +103,14 @@ def tracker():
     return render_template('tracker.html', history=history)
 
 # Dynamic Alias Expansion
+# Add this function for dynamic alias addition
 @app.route('/add_alias', methods=['GET', 'POST'])
 def add_alias():
     if request.method == 'POST':
         main_symptom = request.form['main_symptom'].lower()
         new_alias = request.form['new_alias'].lower()
-        # Add dynamically to Prolog system
-        prolog.assertz(f"symptom_alias({main_symptom}, ['{new_alias}'])")
+        # Add dynamically to Prolog
+        prolog.query(f"add_alias('{main_symptom}', '{new_alias}')")
         return redirect(url_for('index'))
     return render_template('add_alias.html')
 

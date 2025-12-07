@@ -8,7 +8,7 @@ symptom_alias('strains', ['pulled muscle', 'muscle strain']).
 symptom_alias('fever', ['mild fever', 'temperature rise']).
 symptom_alias('nasal congestion', ['blocked nose', 'stuffy nose']).
 symptom_alias('cough', ['dry cough', 'wet cough', 'persistent cough']).
-symptom_alias('sore throat', ['throat pain', 'inflamed throat']).
+symptom_alias('sore throat', ['throat pain', 'inflamed throat', 'sore throat']).
 symptom_alias('gastrointestinal problems', ['gas problems', 'stomach upset']).
 symptom_alias('skin problems', ['skin allergy', 'rash', 'itchy skin']).
 symptom_alias('abdominal pain', ['stomach pain', 'belly ache']).
@@ -24,12 +24,12 @@ symptom_alias('insect bites', ['bug bite', 'mosquito bite']).
 symptom_alias('nose bleed', ['bleeding nose', 'epistaxis']).
 symptom_alias('pulled muscle', ['muscle pull', 'muscle strain']).
 symptom_alias('rectal bleeding', ['bleeding from rectum']).
-symptom_alias('sun burn', ['sunburned skin', 'skin burn from sun']).
+symptom_alias('sun burn', ['sunburned skin', 'skin burn from sun', 'sunburn', 'burn', 'sun']).
 symptom_alias('testicle pain', ['scrotal pain', 'testicular ache']).
 symptom_alias('vertigo', ['dizziness', 'spinning sensation']).
 symptom_alias('normal bleeding', ['minor bleeding']).
 symptom_alias('eye injury', ['injured eye', 'eye trauma']).
-symptom_alias('chemical burn', ['acid burn', 'chemical exposure injury']).
+symptom_alias('chemical burn', ['acid burn', 'chemical exposure injury', 'chemical burn', 'burn']).
 symptom_alias('poison', ['poisoning', 'toxic ingestion']).
 symptom_alias('teeth', ['broken tooth', 'chipped teeth']).
 symptom_alias('seizure', ['convulsion', 'fit']).
@@ -43,7 +43,6 @@ symptom_alias('animal bite', ['dog bite', 'monkey bite', 'cat bite']).
 symptom_alias('drowning', ['near drowning', 'submerged']).
 symptom_alias('cpr', ['cardiac massage', 'resuscitation']).
 symptom_alias('fracture', ['broken bone', 'cracked bone']).
-
 
 % --- First aid advice ---
 first_aid_advice('cuts', 'Wash the cut properly, apply pressure to stop bleeding, use petroleum jelly, and cover with a sterile bandage. Watch: https://youtu.be/9XpJZv_YsGM').
@@ -88,33 +87,41 @@ first_aid_advice('rash', 'Apply olive oil, baking soda paste, or aloe vera to so
 first_aid_advice('snake bite', 'Move away from the snake, keep calm, keep the bite below heart level, and seek emergency help. Watch:https://youtu.be/1zP9bMv78D4?si=qLrOyTTm7zrUoR4B').
 first_aid_advice('animal bite', 'Clean the wound thoroughly, apply antibiotic ointment, and seek medical care for rabies risk. Watch: https://youtu.be/hmBNlUPPmrQ?si=Id3LPzVWuC1nX2Dy').
 first_aid_advice('drowning', 'Check breathing and pulse, start CPR if necessary, and call for emergency help. Watch: https://youtu.be/WKu7_Fwf3PI?si=TB8QPvY8XjwJITDd').
-first_aid_advice('cpr', 'Provide chest compressions at 100–120 per minute, and give rescue breaths if trained. Watch: https://youtube.com/shorts/9HeRaGW3fyo?si=iPGx4ajaMrI3uICI').
+first_aid_advice('cpr', 'Provide chest compressions at 100 – 120 per minute, and give rescue breaths if trained. Watch: https://youtube.com/shorts/9HeRaGW3fyo?si=iPGx4ajaMrI3uICI').
 first_aid_advice('fracture', 'Immobilize the area, apply ice, and seek urgent medical care. Watch: https://youtu.be/l4GXVkf8JjY?si=JwE3CpxOg9lE3lBQ').
 
-
+% --- Normalize symptom based on input ---
 % --- Normalize symptom based on input ---
 normalize_symptom(Input, Symptom) :-
-    % First, try matching the input with symptom aliases
+    string_lower(Input, LowerInput),
     symptom_alias(Symptom, Aliases),
-    member(Input, Aliases). % Check if the input matches any alias
-normalize_symptom(Input, Input). 
+    member(Alias, Aliases),
+    string_lower(Alias, LowerAlias),
+    LowerInput = LowerAlias,  % exact match only
+    !.
+normalize_symptom(Input, Input).
 
-% --- Disclamer ---
+
+% --- Disclaimer ---
 first_aid_with_disclaimer(Symptom, FullAdvice) :-
     first_aid_advice(Symptom, Advice),
     atom_concat(Advice, ' This is for first aid purposes only. Please seek professional medical advice.', FullAdvice).
 
-
 % --- Process user inputs to generate advice ---
 process_user_inputs([], []).
-process_user_inputs([Input|Rest], [Advice|AdviceRest]) :-
-    normalize_symptom(Input, Symptom),  % Normalize the symptom to a known form
-    first_aid_with_disclaimer(Symptom, Advice),  % Get the corresponding advice
-    process_user_inputs(Rest, AdviceRest).
-process_user_inputs([_|Rest], AdviceRest) :-
-    % Skip if no matching symptom
-    process_user_inputs(Rest, AdviceRest).
-
+process_user_inputs([Input|Rest], AllAdvice) :-
+    findall(Advice,
+            ( normalize_symptom(Input, Symptom),
+              first_aid_with_disclaimer(Symptom, Advice)
+            ),
+            Advices),
+    ( Advices = [] ->
+        format(atom(NoAdvice), 'No first aid advice found for "~w". Please consult a doctor.', [Input]),
+        UniqueAdvices = [NoAdvice]
+    ; sort(Advices, UniqueAdvices)
+    ),
+    process_user_inputs(Rest, RestAdvice),
+    append(UniqueAdvices, RestAdvice, AllAdvice).
 
 % --- Find possible matching symptoms ---
 find_possible_symptoms(Input, Matches) :-
@@ -122,5 +129,3 @@ find_possible_symptoms(Input, Matches) :-
         symptom_alias(Symptom, Aliases),
         (member(Input, Aliases); Symptom = Input)
     ), Matches).
-
-
