@@ -1,13 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>First Aid Advice</title>
+    <meta charset="UTF-8">
+    <title>Advice</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-     
-    <h1>First Aid Advice for {{ symptom }}</h1>
-    <p>{{ advice }}</p>
-    <a href="/">Go Back</a>
+    <div class="container">
+        <h1>First Aid Expert System</h1>
+
+        <div class="box">
+            <h3>Advice for: {{ symptom }}</h3>
+            <p>{{ advice }}</p>
+        </div>
+
+        <a href="/">Back to Home</a>
+    </div>
 </body>
+
 </html>
-s
