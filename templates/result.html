@@ -3,59 +3,208 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>First Aid Advice</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advice Result</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #f0f2f5, #e3e8ee);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* LEFT PANEL */
+        .left-panel {
+            width: 45%;
+            background: url("/static/ke_result.jpg") center/cover no-repeat;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Remove the image element styling */
+        .side-img {
+            display: none; /* not needed anymore */
+        }
+
+
+        /* RIGHT PANEL */
+        .right-panel {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px 50px;
+            background: #7a7a7a;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 500px;
+            background: #f0f0f0;
+            padding: 30px 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .video-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .title {
+            font-weight: 600;
+            font-size: 22px;
+            margin-bottom: 12px;
+            color: #222;
+        }
+
+        .text {
+            font-size: 17px;
+            color: #555;
+            line-height: 1.7;
+        }
+
+        .disclaimer {
+            background: #b3b3b3;
+            border-left: 4px solid #000000;
+            padding: 12px 12px;
+            margin-top: 1px;
+            font-size: 12px;
+            color: #444;
+            text-align: left;
+            border-radius: 10px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 10px auto 0 auto;
+            text-align: center;
+        }
+
+        .video-btn {
+            background: #000000aa;
+            color: #fff;
+        }
+
+        .video-btn:hover {
+            background: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .home-btn {
+            background: #000000;
+            color: #fff;
+        }
+
+        .home-btn:hover {
+            background: #000000;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.3);
+        }
+
+        /* ANIMATION */
+        @keyframes fade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            animation: fade 0.6s ease;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            body {
+                flex-direction: column;
+            }
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            .left-panel {
+                border-radius: 0;
+                padding: 40px 0;
+            }
+            .right-panel {
+                padding: 40px 25px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>First Aid Expert System</h1>
-        <p class="subtitle">Here is the advice based on your symptoms</p>
 
-        <!-- User Input -->
-        <div class="box">
-            <h3>Your Input</h3>
-            <p>{{ symptom }}</p>
+    <!-- LEFT SIDE IMAGE -->
+    <div class="left-panel"></div>
+
+    <!-- RIGHT SIDE CONTENT -->
+    <div class="right-panel">
+
+        <!-- PAGE HEADING -->
+        <div>
+            <h1 class="page-heading">Your Medical Report</h1>
         </div>
 
-        <div class="divider"></div>
+         <!-- SYMPTOM -->
+        <div class="card">
+            <div class="title">Symptom :</div>
+            <div class="text">{{ symptom }}</div>
+        </div>
 
-        <!-- Advice -->
-        <div class="box">
-            <h3>Recommended First Aid Steps</h3>
-            <ul>
-                {% if advice_list %}
-                {% for item in advice_list %}
-                <li>
-                    {% set parts = item.split('Watch:') %}
-                    {{ parts[0] }}
-
-                    {% if parts|length > 1 %}
-                    <br>
-                    <a href="{{ parts[1]|trim }}" target="_blank">Watch Video</a>
-                    {% endif %}
-                </li>
+        <!-- ADVICE -->
+        <div class="card">
+            <div class="title">Advice :</div>
+            <div class="text">
+                {% for advice in advice_list %}
+                    {{ advice.split('Watch:')[0] }}
                 {% endfor %}
-                {% else %}
-                <li>No advice found for this symptom.</li>
-                {% endif %}
-            </ul>
-
-            {% if emergency %}
-            <p style="color:#ff4d4d; font-weight:bold; margin-top:15px;">
-                ⚠ Seek medical help if symptoms persist or worsen.
-            </p>
-            {% endif %}
+            </div>
         </div>
 
-        <a href="/">Back to Home</a>
+        <!-- VIDEO SECTION -->
+        <div class="card">
+            <div class="title">Understand your symptoms better :</div>
+            <div class="video-btn-container">
+                {% for advice in advice_list %}
+                    {% set p = advice.split('Watch:') %}
+                    {% if p|length > 1 %}
+                        <a class="btn video-btn" href="{{ p[1].strip() }}" target="_blank">Watch Video</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
 
         <div class="disclaimer">
             ⚠ Disclaimer: This system provides automated first-aid guidance.
             It is not a substitute for professional medical diagnosis or emergency care.
             If symptoms worsen or in emergencies, seek medical help immediately.
         </div>
-    </div>
-</body>
 
-</html>`
+        <!-- BACK BUTTON -->
+        <a class="btn home-btn" href="/">Back to Home</a>
+
+    </div>
+
+</body>
+</html>
