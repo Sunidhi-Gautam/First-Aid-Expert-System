@@ -69,10 +69,6 @@ def get_advice():
             translated_advice_list.append(new_advice)
         advice_list = translated_advice_list
 
-    # Symptom Tracker
-    if 'symptom_history' not in session:
-        session['symptom_history'] = []
-    session['symptom_history'].append(user_input)
 
     # Emergency check
     emergency = any(symptom in severe_symptoms for symptom in symptoms)
@@ -97,15 +93,15 @@ def clean_input(user_input):
 
 
 # Symptom Tracker Page
-@app.route('/tracker')
-def tracker():
+#@app.route('/tracker')
+#def tracker():
     history = session.get('symptom_history', [])
     return render_template('tracker.html', history=history)
 
 # Dynamic Alias Expansion
 # Add this function for dynamic alias addition
-@app.route('/add_alias', methods=['GET', 'POST'])
-def add_alias():
+# @app.route('/add_alias', methods=['GET', 'POST'])
+#def add_alias():
     if request.method == 'POST':
         main_symptom = request.form['main_symptom'].lower()
         new_alias = request.form['new_alias'].lower()
