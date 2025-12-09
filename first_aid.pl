@@ -1,6 +1,6 @@
 % --- Symptom aliases ---
 symptom_alias('cuts', ['cut', 'open wound', 'bleeding cut']).
-symptom_alias('abrasions', ['scrape', 'grazing', 'skin abrasion']).
+symptom_alias('abrasions', ['scrape', 'grazing', 'skin abrasion', 'abrasion']).
 symptom_alias('stings', ['sting', 'bee sting', 'insect sting']).
 symptom_alias('splinter', ['splinter stuck', 'embedded splinter']).
 symptom_alias('sprains', ['twisted ankle', 'sprained joint']).
