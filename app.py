@@ -89,5 +89,9 @@ def clean_input(user_input):
     # Join the cleaned list back into a string
     return ' '.join(cleaned_input)
 
+# if __name__ == "__main__":
+#     app.run(debug=True, use_reloader=False)
 if __name__ == "__main__":
-    app.run(debug=True, use_reloader=False)
+    import os
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
