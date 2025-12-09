@@ -56,7 +56,7 @@ Built using **Python (Flask)** and **Prolog (SWI-Prolog + PySwip)** with a clean
 
 ## 🎥 Demo Video
 
-Link - https://drive.google.com/file/d/1DWKHfL2-eZJbUR-sdHD8CgvsIbzCFPJE/view?usp=sharing
+Link - https://drive.google.com/drive/folders/19GzZnMf0R3x3zKYCKVXWZ220u_bz5fcl?usp=sharing
 
 ---
 
