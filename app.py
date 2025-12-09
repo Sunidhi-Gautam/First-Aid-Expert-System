@@ -89,26 +89,5 @@ def clean_input(user_input):
     # Join the cleaned list back into a string
     return ' '.join(cleaned_input)
 
-
-
-
-# Symptom Tracker Page
-#@app.route('/tracker')
-#def tracker():
-    history = session.get('symptom_history', [])
-    return render_template('tracker.html', history=history)
-
-# Dynamic Alias Expansion
-# Add this function for dynamic alias addition
-# @app.route('/add_alias', methods=['GET', 'POST'])
-#def add_alias():
-    if request.method == 'POST':
-        main_symptom = request.form['main_symptom'].lower()
-        new_alias = request.form['new_alias'].lower()
-        # Add dynamically to Prolog
-        prolog.query(f"add_alias('{main_symptom}', '{new_alias}')")
-        return redirect(url_for('index'))
-    return render_template('add_alias.html')
-
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=False)
