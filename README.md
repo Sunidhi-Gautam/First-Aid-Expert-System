@@ -9,10 +9,54 @@ Built using **Python (Flask)** and **Prolog (SWI-Prolog + PySwip)** with a clean
 
 - ✔ Prolog-powered expert system  
 - ✔ Multi-language symptom input (via googletrans)  
-- ✔ Clean, consistent UI  
-- ✔ Add new symptom aliases dynamically  
-- ✔ Symptom history tracker  
+- ✔ Clean, consistent UI 
 - ✔ Built-in safety disclaimer  
+
+---
+# 🛠️ Tech Stack
+
+
+| Category        | Technologies |
+|-----------------|--------------|
+| **Backend**     | ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white) |
+| **Expert System** | ![Prolog](https://img.shields.io/badge/Prolog-FF0000?style=for-the-badge&logo=prolog&logoColor=white) ![PySwip](https://img.shields.io/badge/PySwip-3776AB?style=for-the-badge&logo=python&logoColor=white) |
+| **Translation** | ![Google Translate](https://img.shields.io/badge/Google%20Translate-4285F4?style=for-the-badge&logo=google-translate&logoColor=white) |
+| **Frontend**    | ![HTML](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white) ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) |
+| **Template Engine** | ![Jinja2](https://img.shields.io/badge/Jinja-000000?style=for-the-badge&logo=jinja&logoColor=white) |
+| **Environment** | ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) |
+
+
+## 🛠️ Tech Stack
+
+| Category | Technologies |
+|---------|-------------|
+| ⚙️ **Backend** | **Flask**, Python |
+| 🧠 **Expert System** | **SWI-Prolog**, PySwip |
+| 🌐 **Translation** | Googletrans API |
+| 🎨 **Frontend** | HTML • CSS • JavaScript |
+| 🧩 **Template Engine** | Jinja2 |
+| 💻 **Environment** | Python 3.x, Virtualenv |
+
+---
+# ✨ Glimpses of First Aid Expert System
+
+## 1. Homepage
+<img src="static\homepage.png" alt="Home Screen" width="600"/>
+
+## 2. Languages Available 
+<img src="static\language.png" alt="Home Screen" width="600"/>
+
+## 3. Advice Page
+<img src="static\advice.png" alt="Home Screen" width="600"/>
+
+## 4. Advice in Hindi (Example)
+<img src="static\hindi.png" alt="Home Screen" width="600"/>
+
+
+
+## 🎥 Demo Video
+
+Link - https://drive.google.com/file/d/1DWKHfL2-eZJbUR-sdHD8CgvsIbzCFPJE/view?usp=sharing
 
 ---
 
