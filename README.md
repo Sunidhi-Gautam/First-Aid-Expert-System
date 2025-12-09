@@ -26,17 +26,6 @@ Built using **Python (Flask)** and **Prolog (SWI-Prolog + PySwip)** with a clean
 | **Environment** | ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) |
 
 
-## 🛠️ Tech Stack
-
-| Category | Technologies |
-|---------|-------------|
-| ⚙️ **Backend** | **Flask**, Python |
-| 🧠 **Expert System** | **SWI-Prolog**, PySwip |
-| 🌐 **Translation** | Googletrans API |
-| 🎨 **Frontend** | HTML • CSS • JavaScript |
-| 🧩 **Template Engine** | Jinja2 |
-| 💻 **Environment** | Python 3.x, Virtualenv |
-
 ---
 # ✨ Glimpses of First Aid Expert System
 
@@ -105,12 +94,12 @@ cd First-Aid-Expert-System
 
 ### **Windows:**
 ```bash
-python -m venv venv
+py -3.10 -m venv venv
 venv\Scripts\activate
 ```
 ### Mac / Linux:
 ```bash
-python3 -m venv venv
+python3.10 -m venv venv
 source venv/bin/activate
 ```
 
